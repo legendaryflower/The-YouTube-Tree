@@ -12,12 +12,17 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.1",
+	num: "0.2",
 	name: "Alpha",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
  <em>This list may contain spoilers! </em><br><br>
+	<h3>v0.2 Alpha</h3><br>
+		- Added vidIQ, more upgrades. <br>
+		- You can monetize when you reach at least 1,500 Subscribers. <br>
+		- Added a news ticker.
+		<br><br>
 	<h3>v0.1 Alpha</h3><br>
 		- Early launch.<br>
 		- Trophies are unfinished so this would be added in later updates. <br>
@@ -54,16 +59,17 @@ function getPointGen() {
 
 // You can add non-layer related variables that should to into "player" and be saved here, along with default values
 function addedPlayerData() { return {
+	newsTotal: OmegaNum.ZERO,
 }}
 
 // Display extra things at the top of the page
 // Display extra things at the top of the page
-var displayThings = [`<span>Reach 8 videos to beat the game!`,
+var displayThings = [`<span>Get a revenue of $500 to beat the game!`,
 ]
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.v.points.gte(new OmegaNum(8))
+	return player.m.points.gte(new OmegaNum(500))
 }
 
 

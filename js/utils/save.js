@@ -18,7 +18,7 @@ function startPlayerBase() {
 		timePlayed: 0,
 		keepGoing: false,
 		hasNaN: false,
-
+		hideNews: false,
 		points: modInfo.initialStartPoints,
 		isWarned: false,
 		subtabs: {},
@@ -205,6 +205,7 @@ function load() {
 		player.offTime.remain += (Date.now() - player.time) / 1000;
 	}
 	player.time = Date.now();
+	if (player.newsArray === undefined) player.newsArray = [];
 	versionCheck();
 	changeTheme();
 	changeTreeQuality();

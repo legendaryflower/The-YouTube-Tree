@@ -13,6 +13,7 @@
 	<script src="js/tree.js"></script>
 	<script src="js/layers.js"></script>
 	<script src="js/mod.js"></script>
+	<script src="js/news.js"></script>
 	<script src="js/technical/temp.js"></script>
 	<script src="js/technical/displays.js"></script>
 	
@@ -64,6 +65,9 @@
 			col: (player.tab !== 'none' && player.navTab !== 'none'), 
 			left: (player.tab !== 'none' && player.navTab !== 'none')}"
 			 :style="{'margin-top': !readData(layoutInfo.showTree) && player.tab == 'info-tab' ? '50px' : ''}">
+			 <div id = "newsTicker">
+				<div id = "newsContent" style = "display: inline-block; position: relative;"></div>
+			</div>
 			<div id="version" onclick="showTab('changelog-tab')" class="overlayThing" style="margin-right: 13px" >
 				{{VERSION.withoutName}}</div>
 			<button
@@ -83,6 +87,8 @@
 					<li><a class="link" href="http://discord.gg/wwQfgPa" target="_blank"
 							v-bind:style="{'font-size': '16px'}">Main Prestige Tree server</a></li>
 				</ul>
+			</div>
+			<div id="newsbtn" class="overlayThing">📰
 			</div>
 			<overlay-head v-if="!(gameEnded && !player.keepGoing)"></overlay-head>
 			<div class="sideLayers">

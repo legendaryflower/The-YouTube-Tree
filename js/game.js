@@ -350,6 +350,20 @@ function gameLoop(diff) {
 		let limit = maxTickLength()
 		if(diff > limit)
 			diff = limit
+			if (player.hideNews && document.getElementById("newsTicker")) {
+				document.getElementById("newsTicker").style.display = "none";
+			}
+			if (document.getElementById("newsbtn")) {
+			document.getElementById("newsbtn").onclick = function() {
+				if (!player.hideNews && document.getElementById("newsbtn") && document.getElementById("newsTicker")) {
+				  document.getElementById("newsTicker").style.display = "none";
+				  player.hideNews = true
+				} else {
+				  document.getElementById("newsTicker").style.display = "block";
+				  player.hideNews = false
+				}
+			  }
+			}
 	}
 	addTime(diff)
 	player.points = player.points.add(tmp.pointGen.times(diff)).max(0)
