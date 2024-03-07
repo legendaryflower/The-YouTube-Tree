@@ -12,12 +12,18 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.2",
+	num: "0.3",
 	name: "Alpha",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
  <em>This list may contain spoilers! </em><br><br>
+ <h3>v0.3 Alpha</h3><br>
+ - Trophies can now be gained upon completing the 4th YouTube Academy.<br>
+ - Added more YouTube Academies.<br>
+ - Added 2 new layers. <br>
+ - More changes maybe to the game.
+ <br><br>
 	<h3>v0.2 Alpha</h3><br>
 		- Added vidIQ, more upgrades. <br>
 		- You can monetize when you reach at least 1,500 Subscribers. <br>
@@ -43,7 +49,7 @@ function getStartPoints(){
 
 // Determines if it should show points/sec
 function canGenPoints(){
-	return true;
+	return hasUpgrade("tr",11);
 }
 
 // Calculate points/sec!
@@ -51,8 +57,13 @@ function getPointGen() {
 	if(!canGenPoints())
 		return new EN(0)
 
-	let gain = new EN(0)
-	
+	let gain = new EN(1)
+	if (hasUpgrade("tr",12)) gain = gain.times(2)
+	if (hasUpgrade("tr",13)) gain = gain.times(upgradeEffect("tr",13))
+	if (hasUpgrade("co",11)) gain = gain.times(15)
+	if (hasUpgrade("co",21)) gain = gain.times(15)
+	if (hasUpgrade("co",15)) gain = gain.pow(2)
+	if (hasUpgrade("co",16)) gain = gain.pow(3)
 	return gain
 }
 
@@ -64,12 +75,12 @@ function addedPlayerData() { return {
 
 // Display extra things at the top of the page
 // Display extra things at the top of the page
-var displayThings = [`<span>Get a revenue of $500 to beat the game!`,
+var displayThings = [`<span>Reach 1e20 trophies to beat the game!`,
 ]
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.m.points.gte(new OmegaNum(500))
+	return player.points.gte(new OmegaNum(1e20))
 }
 
 
