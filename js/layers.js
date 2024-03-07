@@ -1068,7 +1068,69 @@ addLayer("p", {
         },
     },
 })
+addLayer("reb", {
+    name: "report", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "🐞", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: 0, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    startData() { return {
+        unlocked: true,
+		points: new EN(0), 
+        total: new EN(0),
+        best: new EN(0),
+   
+    }},
+    color: "red",
+    requires: new EN(1e144), // Can be a function that takes requirement increases into account
+    resource: "points", // Name of prestige currency
+    baseResource: "video", // Name of resource prestige is based on
+    baseAmount() {return player.v.points}, // Get the current amount of baseResource
+    tooltip(){return "Report bugs"},
+        type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    exponent: 0.75, // Prestige currency exponent
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = new EN(1)
+      if (hasUpgrade("p",11)) mult = mult.times(1.5);
+      if (hasUpgrade("p",12)) mult = mult.times(upgradeEffect("p",12));
+      if (hasUpgrade("p",13)) mult = mult.times(upgradeEffect("p",13));
+      if (hasUpgrade("p",21)) mult = mult.times(upgradeEffect("p",21));
+      if (hasUpgrade("p",31)) mult = mult.times(upgradeEffect("p",31));
+      if (hasUpgrade("p", 22)) mult = mult.plus(upgradeEffect("p", 22).v);
+      if (hasUpgrade("q",11)) mult = mult.times(2);
+      if (hasUpgrade("q",14)) mult = mult.times(upgradeEffect("q",14));
+      if (inChallenge("q", 11)) mult = mult.div(challengeNerf("q", 11));
+      if (inChallenge("q", 13)) mult = mult.root(challengeNerf("q", 13));
+      if (hasChallenge("q", 11)) mult = mult.times(challengeEffect("q", 11));
+      if (hasUpgrade("q",23)) mult = mult.times(upgradeEffect("q",23));
+      if (hasUpgrade("q",32)) mult = mult.times(100);
+      if (hasUpgrade("q",41)) mult = mult.times(1000);
+      if (player.pb.unlocked) mult = mult.times(tmp.pb.effect)
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+       let exp =  new EN(1)
+     
+       return exp;
+    },
+    tabFormat: ["blank",
+    ["display-text",
+    function() {return 'You can report bugs <a href="https://forms.gle/YExDaFXvpFnkBDEi9">here</a>.'},
+        {}],
+			"blank",
+			"blank",
+           
+			"blank",
+			"milestones", "blank", "blank", "upgrades"],
 
+ 
+   
+    doReset(resettingLayer) {
+     
+        if (layers[resettingLayer].row > this.row) layerDataReset("p", keep)
+    },
+    row: "side", // Row the layer is in on the tree (0 is the first row)
+   
+
+})
 addLayer("r", {
     name: "automation", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "🤖", // This appears on the layer's node. Default is the id with the first letter capitalized
