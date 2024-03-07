@@ -25,7 +25,8 @@ addLayer("v", {
         if (player.v.points.gte(12)) mult = mult.times(7e44);
         if (player.v.points.gte(50)) mult = mult.times("ee100");
         if (hasChallenge("q", 13)) mult = mult.div(challengeEffect("q", 13));
-        if (hasUpgrade("q",22)) mult = mult.div(upgradeEffect("q",22))    
+        if (hasUpgrade("q",22)) mult = mult.div(upgradeEffect("q",22))
+        if (hasUpgrade("q",25)) mult = mult.times(2);
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -38,7 +39,7 @@ addLayer("v", {
    {
     player.p.points = new EN(0)
    },
-
+   resetsNothing() { return hasMilestone("pb",0) },
  
    
     doReset(resettingLayer) {
@@ -154,6 +155,32 @@ addLayer("q", {
             unlocked() {return hasUpgrade("q",32)||player.m.points.gte(1000)}
            
         },
+        33: {
+            title: "Supercomputer",
+            description: "Give a 100x multipler to the Trophy gain.",
+            cost: new EN(2.5e35),
+          
+            style: {width: "160px", height: "160px"},
+            currencyDisplayName: "trophies",
+            currencyInternalName: "points",
+   
+   
+            unlocked() {return hasUpgrade("q",26)}
+           
+        },
+        34: {
+            title: "Hypercomputer",
+            description: "Give a 1e5x multipler to the Trophy gain.",
+            cost: new EN(1e37),
+          
+            style: {width: "160px", height: "160px"},
+            currencyDisplayName: "trophies",
+            currencyInternalName: "points",
+   
+   
+            unlocked() {return hasUpgrade("q",33)}
+           
+        },
         41: {
             title: "Gaming PC",
             description: "Give a 1e4x multipler to the Points gain.",
@@ -208,7 +235,7 @@ addLayer("q", {
             cost: new EN(4),
             effect() {
                 let eff = OmegaNum.pow(1.2, player.q.upgrades.length);
-        
+                if (eff.gte(12.83)) eff = new EN(12.83)
                 return eff;
             },
             effectDisplay() { return "/"+format(upgradeEffect("q", 22))},
@@ -242,6 +269,26 @@ addLayer("q", {
             unlocked() {return hasUpgrade("q",23)}
            
         },
+        25: {
+            title: "YouTube Star",
+            description: "Trophies' gain is increased by 50 but double the Videos cost requirement.",
+            cost: new EN(5e33),
+            currencyDisplayName: "trophies",
+            currencyInternalName: "points",
+      
+            unlocked() {return hasUpgrade("q",25)||player.points.gte(5e33)}
+           
+        },
+        26: {
+            title: "Underrated",
+            description: "<b>Exporting</b> is boosted slightly.",
+            cost: new EN(5e34),
+            currencyDisplayName: "trophies",
+            currencyInternalName: "points",
+      
+            unlocked() {return hasUpgrade("q",25)}
+           
+        },
     },
     challenges: {
       11: {
@@ -256,27 +303,21 @@ addLayer("q", {
                 if (challengeCompletions(this.layer, this.id) == 0) return new OmegaNum(100000);
                 if (challengeCompletions(this.layer, this.id) == 1) return new OmegaNum(1000000);
                 if (challengeCompletions(this.layer, this.id) == 2) return new OmegaNum(1e7);
-                if (challengeCompletions(this.layer, this.id) == 3) return new OmegaNum(1e8);
-                if (challengeCompletions(this.layer, this.id) == 4) return new OmegaNum(1e150);
-                if (challengeCompletions(this.layer, this.id) == 5) return new OmegaNum("ee100");
+                
    
             },
             powers() {
                 if (challengeCompletions(this.layer, this.id) == 0) return 100;
                 if (challengeCompletions(this.layer, this.id) == 1) return 1000;
                 if (challengeCompletions(this.layer, this.id) == 2) return 10000;
-                if (challengeCompletions(this.layer, this.id) == 3) return 100000;
-                if (challengeCompletions(this.layer, this.id) == 4) return 1e40;
-                if (challengeCompletions(this.layer, this.id) == 5) return 1e200;
+              
 
             },
             powers2() {
                 if (challengeCompletions(this.layer, this.id) == 0) return 5;
                 if (challengeCompletions(this.layer, this.id) == 1) return 25;
                 if (challengeCompletions(this.layer, this.id) == 2) return 125;
-                if (challengeCompletions(this.layer, this.id) == 3) return 6125;
-                if (challengeCompletions(this.layer, this.id) == 4) return 1e10;
-                if (challengeCompletions(this.layer, this.id) == 5) return 1e75;
+          
 
             },
         currencyDisplayName: "points",
@@ -286,9 +327,7 @@ addLayer("q", {
             if (challengeCompletions(this.layer, this.id) == 0) return 1;
             if (challengeCompletions(this.layer, this.id) == 1) return 1.75;
             if (challengeCompletions(this.layer, this.id) == 2) return 2.25;
-            if (challengeCompletions(this.layer, this.id) == 3) return 2.74;
-            if (challengeCompletions(this.layer, this.id) == 4) return 1e10;
-            if (challengeCompletions(this.layer, this.id) == 5) return 1e95;
+            if (challengeCompletions(this.layer, this.id) == 3) return 2.75;
           
         },
         rewardEffect() {
@@ -303,7 +342,7 @@ addLayer("q", {
         rewardDisplay() { return "Multipler is " + format(this.rewardEffect())+"x to points gain" },
         rewardDescription: "Concurrent multipler to Points gain based on challenges completed.",
         unlocked() {return hasUpgrade("q",15)},
-        completionLimit: 5,
+        completionLimit: 3,
      
     },
     12: {
@@ -318,18 +357,14 @@ addLayer("q", {
                 if (challengeCompletions(this.layer, this.id) == 0) return new OmegaNum(5e4);
                 if (challengeCompletions(this.layer, this.id) == 1) return new OmegaNum(5e5);
                 if (challengeCompletions(this.layer, this.id) == 2) return new OmegaNum(5e8);
-                if (challengeCompletions(this.layer, this.id) == 3) return new OmegaNum(5e20);
-                if (challengeCompletions(this.layer, this.id) == 4) return new OmegaNum("ee600");
-                if (challengeCompletions(this.layer, this.id) == 5) return new OmegaNum("eeeee60");
+ 
    
             },
             powers() {
                 if (challengeCompletions(this.layer, this.id) == 0) return 5;
                 if (challengeCompletions(this.layer, this.id) == 1) return 10;
                 if (challengeCompletions(this.layer, this.id) == 2) return 15;
-                if (challengeCompletions(this.layer, this.id) == 3) return 20;
-                if (challengeCompletions(this.layer, this.id) == 4) return 1e75;
-                if (challengeCompletions(this.layer, this.id) == 5) return 1e305;
+   
 
             },
           
@@ -341,8 +376,6 @@ addLayer("q", {
             if (challengeCompletions(this.layer, this.id) == 1) return 1.5;
             if (challengeCompletions(this.layer, this.id) == 2) return 2;
             if (challengeCompletions(this.layer, this.id) == 3) return 2.5;
-            if (challengeCompletions(this.layer, this.id) == 4) return 50;
-            if (challengeCompletions(this.layer, this.id) == 5) return 1e10;
           
         },
         rewardEffect() {
@@ -357,7 +390,7 @@ addLayer("q", {
         rewardDisplay() { return "Multipler is " + format(this.rewardEffect())+"x to gaining revenue" },
         rewardDescription: "You get more revenue income based on this challenge completion.",
         unlocked() {return hasChallenge("q",11)},
-        completionLimit: 5,
+        completionLimit: 3,
      
     },
     13: {
@@ -372,18 +405,14 @@ addLayer("q", {
                 if (challengeCompletions(this.layer, this.id) == 0) return new OmegaNum(1500);
                 if (challengeCompletions(this.layer, this.id) == 1) return new OmegaNum(3000);
                 if (challengeCompletions(this.layer, this.id) == 2) return new OmegaNum(1e7);
-                if (challengeCompletions(this.layer, this.id) == 3) return new OmegaNum(1e20);
-                if (challengeCompletions(this.layer, this.id) == 4) return new OmegaNum(1e75);
-                if (challengeCompletions(this.layer, this.id) == 5) return new OmegaNum(1e200);
+  
    
             },
             powers() {
                 if (challengeCompletions(this.layer, this.id) == 0) return 1e40;
                 if (challengeCompletions(this.layer, this.id) == 1) return 1e30;
                 if (challengeCompletions(this.layer, this.id) == 2) return 1e20;
-                if (challengeCompletions(this.layer, this.id) == 3) return 1e10;
-                if (challengeCompletions(this.layer, this.id) == 4) return 1e5;
-                if (challengeCompletions(this.layer, this.id) == 5) return 1e3;
+
 
             },
           
@@ -395,8 +424,6 @@ addLayer("q", {
             if (challengeCompletions(this.layer, this.id) == 1) return 1.4;
             if (challengeCompletions(this.layer, this.id) == 2) return 1.8;
             if (challengeCompletions(this.layer, this.id) == 3) return 2.2;
-            if (challengeCompletions(this.layer, this.id) == 4) return 2.6;
-            if (challengeCompletions(this.layer, this.id) == 5) return 3.0;
           
         },
         rewardEffect() {
@@ -411,7 +438,7 @@ addLayer("q", {
         rewardDisplay() { return "Multipler is " + format(this.rewardEffect())+"x to decreasing the cost requirement of vidIQ and Videos." },
         rewardDescription: "Unlock more vidIQ upgrades and give a multipler to decrease the cost requirement of vidIQ and Videos.",
         unlocked() {return hasChallenge("q",12)},
-        completionLimit: 5,
+        completionLimit: 3,
      
     },
     21: {
@@ -469,11 +496,13 @@ addLayer("m", {
         if (hasUpgrade("q",16)) mult = mult.times(3);
         if (hasChallenge("q",12)) mult = mult.times(challengeEffect("q",12));
         if (hasUpgrade("q",21)) mult = mult.pow(1.2);
+        if (player.pb.points.gte(2)) mult = mult.times(tmp.co.buyables[13].effect.first);
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
        let exp =  new EN(1)
        if (hasUpgrade("co",14)) exp = exp.times(3);
+       if (hasUpgrade("co",24)) exp = exp.times(1.5);
        return exp;
     },
   
@@ -612,6 +641,95 @@ unlocked() {return hasUpgrade("tr",13)}
 
    
 },
+15: {
+    title: "Platinum Medal",
+    description: "Raise the Views gain by 6.",
+    cost: new EN(1.5e33),
+
+    currencyDisplayName: "trophies",
+    currencyInternalName: "points",
+unlocked() {return hasUpgrade("tr",15)||player.points.gte(1.5e33)}
+
+   
+},
+16: {
+    title: "Diamond Medal",
+    description: "Inflate the Trophy gain a bit.",
+    cost: new EN(1e43),
+
+    currencyDisplayName: "trophies",
+    currencyInternalName: "points",
+unlocked() {return hasUpgrade("tr",16)||player.points.gte(1e43)}
+
+   
+},
+17: {
+    title: "Polonium Medal",
+    description: "Trophy gain is tetrated to 1.001.",
+    cost: new EN(1e124),
+
+    currencyDisplayName: "trophies",
+    currencyInternalName: "points",
+unlocked() {return hasUpgrade("tr",17)||player.points.gte(1e124)}
+
+   
+},
+21: {
+    title: "Uranium Medal",
+    description: "Trophies multiply their own gain.",
+    cost: new EN(5e163),
+    effect() {
+               
+    
+
+        let eff = player.points.add(1).pow(0.1)
+        
+        return eff;
+    },
+    effectDisplay() { return format(upgradeEffect("tr", 21))+"x" },
+    currencyDisplayName: "trophies",
+    currencyInternalName: "points",
+unlocked() {return hasUpgrade("tr",21)||player.points.gte(5e163)}
+
+   
+},
+22: {
+    title: "Neptunium Medal",
+    description: "Multiply Trophies based on this time played.",
+    cost: new EN(3e182),
+    effect() {
+               
+    
+
+        return new OmegaNum(player.timePlayed).plus(1).pow(1)
+    },
+    effectDisplay() { return format(upgradeEffect("tr", 22))+"x" },
+    currencyDisplayName: "trophies",
+    currencyInternalName: "points",
+unlocked() {return hasUpgrade("tr",22)||player.points.gte(3e182)}
+
+   
+},
+23: {
+    title: "Plutonium Medal",
+    description: "Trophies gain are tetrated to 1.0018.",
+    cost: new EN(3.5e187),
+    currencyDisplayName: "trophies",
+    currencyInternalName: "points",
+unlocked() {return hasUpgrade("tr",22)}
+
+   
+},
+24: {
+    title: "Dubnium Medal",
+    description: "Trophies' gain is increased by 1e100 and unlock Play Buttons.",
+    cost: new EN("3e568"),
+    currencyDisplayName: "trophies",
+    currencyInternalName: "points",
+unlocked() {return hasUpgrade("tr",23)}
+
+   
+},
 }
 })
 addLayer("vi", {
@@ -642,6 +760,8 @@ addLayer("vi", {
         if (hasUpgrade("q",24)) mult = mult.pow(upgradeEffect("q",24));
         if (hasUpgrade("co",12)) mult = mult.times(15);
         if (hasUpgrade("co",22)) mult = mult.times(15);
+        if (hasUpgrade("co",26)) mult = mult.times(tmp.co.buyables[12].effect.first);
+        if (hasUpgrade("tr",15)) mult = mult.pow(6);
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -701,6 +821,8 @@ addLayer("s", {
         if (hasUpgrade("q",12)) mult = mult.times(2);
         if (hasUpgrade("co",13)) mult = mult.times(4);
         if (hasUpgrade("q",24)) mult = mult.pow(upgradeEffect("q",24));
+        if (hasUpgrade("co",23)) mult = mult.pow(4.5);
+        if (hasUpgrade("co",26)) mult = mult.times(tmp.co.buyables[12].effect.first);
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -769,6 +891,7 @@ addLayer("p", {
       if (hasUpgrade("q",23)) mult = mult.times(upgradeEffect("q",23));
       if (hasUpgrade("q",32)) mult = mult.times(100);
       if (hasUpgrade("q",41)) mult = mult.times(1000);
+      if (player.pb.unlocked) mult = mult.times(tmp.pb.effect)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -833,6 +956,7 @@ addLayer("p", {
                 if (hasUpgrade("p",33)) eff = eff.times(1.01)
                 if (hasUpgrade("q",14)) eff = eff.times(2)
                 if (inChallenge("q",12)) eff = eff.div(challengeNerf("q",12))
+                if (hasUpgrade("q",26)) eff = eff.times(1.5)
                 return eff;
             },
             effectDisplay() { return format(upgradeEffect("p", 13))+"x" },
@@ -1056,7 +1180,7 @@ addLayer("co", {
     function() {return 'Because around 500,000 people know your channel. You can perform any content to make your audience engaged.'},
         {}],
 			"blank",
-			"milestones", "blank", "blank", "upgrades"],
+			"upgrades", "blank", "blank", "buyables"],
 
  
    
@@ -1119,11 +1243,31 @@ addLayer("co", {
             currencyInternalName: "points",
        
         },
+        23: {
+            title: "Artist II",
+            description: "Raise Subscribers gain by 4.5.",
+            cost: new EN(1e25),
+            unlocked() {return hasUpgrade("co",16)},
+              
+            currencyDisplayName: "trophies",
+            currencyInternalName: "points",
+       
+        },
         14: {
             title: "Object Shows",
             description: "Multiply Dollars' exponent by 3.",
             cost: new EN(2.56e5),
             unlocked() {return hasUpgrade("co",13)},
+              
+            currencyDisplayName: "trophies",
+            currencyInternalName: "points",
+       
+        },
+        24: {
+            title: "Object Shows II",
+            description: "Multiply Dollars' exponent by 1.5.",
+            cost: new EN(1.75e26),
+            unlocked() {return hasUpgrade("co",16)},
               
             currencyDisplayName: "trophies",
             currencyInternalName: "points",
@@ -1139,6 +1283,16 @@ addLayer("co", {
             currencyInternalName: "points",
        
         },
+        25: {
+            title: "Music Maker II",
+            description: "Raise the Trophies gain by 1.15.",
+            cost: new EN(1e27),
+            unlocked() {return hasUpgrade("co",16)},
+              
+            currencyDisplayName: "trophies",
+            currencyInternalName: "points",
+       
+        },
         16: {
             title: "Game Creator",
             description: "Cube the Trophies gain",
@@ -1149,5 +1303,204 @@ addLayer("co", {
             currencyInternalName: "points",
        
         },
+        26: {
+            title: "Game Creator II",
+            description: "Raise the Trophies gain by 1.10.",
+            cost: new EN(1e31),
+            unlocked() {return hasUpgrade("co",16)},
+              
+            currencyDisplayName: "trophies",
+            currencyInternalName: "points",
+       
+        },
     },
+    buyables: {
+        11: {
+            cost(x) { return new EN(1e10).mul(new EN(25000).pow(x)) },
+            title() { return "Vermillion" },
+  
+            display() { // Everything else displayed in the buyable button after the title
+                let data = tmp[this.layer].buyables[this.id]
+                return "Cost: " + format(data.cost) + " points\n\
+                Amount: " + player[this.layer].buyables[this.id] + "\n\
+               Multiplies Trophy gain by " + format(data.effect.first) + "."
+            },
+            effect(x) { // Effects of owning x of the items, x is a decimal
+                let eff = {}
+                if (x.gte(0)) eff.first = OmegaNum.pow(4, x.pow(1.5))
+                else eff.first = OmegaNum.pow(1/40, x.times(-1).pow(1.5))
+            
+                if (x.gte(0)) eff.second = x.pow(0.8)
+                else eff.second = x.times(-1).pow(0.8).times(-1)
+                return eff;
+            },
+            canAfford() { return player.p.points.gte(this.cost()) },
+            buy() {
+                player.p.points = player.p.points.sub(this.cost())
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            unlocked() {return hasUpgrade("co",23)}
+        },
+        12: {
+            cost(x) { return new EN(1e15).mul(new EN(1e15).pow(x)) },
+            title() { return "Verbillion" },
+  
+            display() { // Everything else displayed in the buyable button after the title
+                let data = tmp[this.layer].buyables[this.id]
+                return "Cost: " + format(data.cost) + " points\n\
+                Amount: " + player[this.layer].buyables[this.id] + "\n\
+               Multiplies Views & Subscribers gain by " + format(data.effect.first) + "."
+            },
+            effect(x) { // Effects of owning x of the items, x is a decimal
+                let eff = {}
+                if (x.gte(0)) eff.first = OmegaNum.pow(100, x.pow(1.8))
+                else eff.first = OmegaNum.pow(1/40, x.times(-1).pow(1.5))
+            
+                if (x.gte(0)) eff.second = x.pow(0.8)
+                else eff.second = x.times(-1).pow(0.8).times(-1)
+                return eff;
+            },
+            canAfford() { return player.p.points.gte(this.cost()) },
+            buy() {
+                player.p.points = player.p.points.sub(this.cost())
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            unlocked() {return hasUpgrade("co",26)}
+        },
+        13: {
+            cost(x) { return new EN(1e16).mul(new EN(1e20).pow(x)) },
+            title() { return "Vertrillion" },
+  
+            display() { // Everything else displayed in the buyable button after the title
+                let data = tmp[this.layer].buyables[this.id]
+                return "Cost: " + format(data.cost) + " points\n\
+                Amount: " + player[this.layer].buyables[this.id] + "\n\
+               Multiplies Dollars gain by " + format(data.effect.first) + "."
+            },
+            effect(x) { // Effects of owning x of the items, x is a decimal
+                let eff = {}
+                if (x.gte(0)) eff.first = OmegaNum.pow(8, x.pow(1.8))
+                else eff.first = OmegaNum.pow(1/40, x.times(-1).pow(1.5))
+            
+                if (x.gte(0)) eff.second = x.pow(0.8)
+                else eff.second = x.times(-1).pow(0.8).times(-1)
+                return eff;
+            },
+            canAfford() { return player.p.points.gte(this.cost()) },
+            buy() {
+                player.p.points = player.p.points.sub(this.cost())
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            unlocked() {return player.pb.points.gte(2)}
+        },
+        14: {
+            cost(x) { return new EN(1e18).mul(new EN(1e200).pow(x)) },
+            title() { return "Verquadrillion" },
+  
+            display() { // Everything else displayed in the buyable button after the title
+                let data = tmp[this.layer].buyables[this.id]
+                return "Cost: " + format(data.cost) + " points\n\
+                Amount: " + player[this.layer].buyables[this.id] + "\n\
+               Multiplies Trophy gain by " + format(data.effect.first) + "."
+            },
+            effect(x) { // Effects of owning x of the items, x is a decimal
+                let eff = {}
+                if (x.gte(0)) eff.first = OmegaNum.pow(1e25, x.pow(512))
+                else eff.first = OmegaNum.pow(1/40, x.times(-1).pow(1.5))
+            
+                if (x.gte(0)) eff.second = x.pow(0.8)
+                else eff.second = x.times(-1).pow(0.8).times(-1)
+                return eff;
+            },
+            canAfford() { return player.p.points.gte(this.cost()) },
+            buy() {
+                player.p.points = player.p.points.sub(this.cost())
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            unlocked() {return player.pb.points.gte(3)}
+        },
+    },
+})
+addLayer("pb", {
+    name: "play button", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "▶", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: 0, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    startData() { return {
+        unlocked: false,
+		points: new EN(0), 
+        total: new EN(0),
+        best: new EN(0),
+   
+    }},
+    color: "silver",
+    requires: new EN("1e791"), // Can be a function that takes requirement increases into account
+    resource: "play buttons", // Name of prestige currency
+    baseResource: "trophies", // Name of resource prestige is based on
+    baseAmount() {return player.points}, // Get the current amount of baseResource
+    type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    exponent: 0.5, // Prestige currency exponent
+    base: 1e10,
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = new EN(1)
+      
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+       let exp =  new EN(1)
+     
+       return exp;
+    },
+    effectDescription() {
+        return "which are boosting Points gain by "+format(tmp.pb.effect)+"x."
+    },
+    
+    addToBase() {
+        let base = new EN(0);
+    
+
+        return base;
+    },
+    effectBase() {
+        let base = new EN(2);
+        
+        // ADD
+        base = base.plus(tmp.pb.addToBase);
+        
+        // MULTIPLY
+   
+        
+        return base.pow(tmp.pb.power);
+    },
+    power() {
+        let power = new EN(1);
+    
+        return power;
+    },
+    effect() {
+        return OmegaNum.pow(tmp.pb.effectBase, player.pb.points.plus(0)).max(1).times(1);
+    },
+
+ layerShown() {return hasUpgrade("tr",24)},
+   
+    doReset(resettingLayer) {
+     
+        if (layers[resettingLayer].row > this.row) layerDataReset("v", keep)
+    },
+    row: 2, // Row the layer is in on the tree (0 is the first row)
+    hotkeys: [
+        {key: "v", description: "V: Reset for prestige points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    ],
+   branches: ["s","vi"],
+   onPrestige() {
+       
+    player.v.points = new EN(1)
+               },
+               milestones: {
+         
+                0: {requirementDescription: "1 Play Button",
+                done() {return player[this.layer].best.gte(1)}, // Used to determine when to give the milestone
+                effectDescription: "Videos reset nothing.",
+               },
+              
+            }
 })

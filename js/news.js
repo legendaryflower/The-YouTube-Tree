@@ -40,6 +40,8 @@ const newsArray = [
   ["I wanna see parents asking for modd.io to be shut down"],
   ["The pals have met me. Rhenium!"],
   ["You just have won your YouTube competition."],
+  ["Stop adding goofy characters."],
+  ["Do not purchase subscribers, you're going to be in a trouble of your YouTube account."],
 ];
 setTimeout(() => {
   ticker = document.getElementById("newsContent");
