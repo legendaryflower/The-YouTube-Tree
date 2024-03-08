@@ -445,12 +445,12 @@ addLayer("q", {
         name: "Termination",
    
         challengeDescription() {
-            return "All challenges are applied to once."
+            return "Challenge 11 and Challenge 13 are applied to once."
             + "<br>"+challengeCompletions(this.layer, this.id)+""
              + "/" + this.completionLimit + " completions";
         },
          goal(){
-                if (challengeCompletions(this.layer, this.id) == 0) return new OmegaNum(1.5e5);
+                if (challengeCompletions(this.layer, this.id) == 0) return new OmegaNum(2.5e5);
             
    
             },
@@ -464,7 +464,7 @@ addLayer("q", {
          player.v.points = new EN(11)
          player.p.points = new EN(0)
         },
-        countsAs: [11,12,13],
+        countsAs: [11,13],
         rewardDescription: "Unlock Trophy layer.",
         unlocked() {return hasChallenge("q",11)&&hasChallenge("q",12)&&hasChallenge("q",13)&&hasUpgrade("q",23)&&player.m.points.gte(1500)},
         completionLimit: 1,

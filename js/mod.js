@@ -12,12 +12,14 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.4.1",
+	num: "0.4.2",
 	name: "Alpha",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
  <em>This list may contain spoilers! </em><br><br>
+ <h3>v0.4.2 Alpha</h3><br>
+ - Termination does not apply Challenge 12.<br><br>
  <h3>v0.4.1 Alpha</h3><br>
  - Not a change but added a layer that you can directly report bugs
  <br><br>
