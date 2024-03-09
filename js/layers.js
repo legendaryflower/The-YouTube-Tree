@@ -435,7 +435,7 @@ addLayer("q", {
          player.v.points = new EN(11)
          player.p.points = new EN(0)
         },
-        rewardDisplay() { return "Multipler is " + format(this.rewardEffect())+"x to decreasing the cost requirement of vidIQ and Videos." },
+        rewardDisplay() { return "Multipler is " + format(this.rewardEffect())+"x to decreasing the cost requirement of vidIQ and Videos. Also unlock Trophies" },
         rewardDescription: "Unlock more vidIQ upgrades and give a multipler to decrease the cost requirement of vidIQ and Videos.",
         unlocked() {return hasChallenge("q",12)},
         completionLimit: 3,
@@ -465,7 +465,7 @@ addLayer("q", {
          player.p.points = new EN(0)
         },
         countsAs: [11,13],
-        rewardDescription: "Unlock Trophy layer.",
+        rewardDescription: "Multiply the Points' gain by 1.5.",
         unlocked() {return hasChallenge("q",11)&&hasChallenge("q",12)&&hasChallenge("q",13)&&hasUpgrade("q",23)&&player.m.points.gte(1500)},
         completionLimit: 1,
      
@@ -573,7 +573,7 @@ addLayer("tr", {
     },
     row: 1, // Row the layer is in on the tree (0 is the first row)
     branches: ["vi","q"],
-    layerShown(){return hasChallenge("q",21)},
+    layerShown(){return hasChallenge("q",13)},
     upgrades: {
    
         11: {
@@ -891,6 +891,7 @@ addLayer("p", {
       if (hasUpgrade("q",23)) mult = mult.times(upgradeEffect("q",23));
       if (hasUpgrade("q",32)) mult = mult.times(100);
       if (hasUpgrade("q",41)) mult = mult.times(1000);
+      if (hasChallenge("q", 21)) mult = mult.times(1.5);
       if (player.pb.unlocked) mult = mult.times(tmp.pb.effect)
         return mult
     },
